@@ -17,3 +17,5 @@
 *.suo
 *.txt
 *.dep
+*.manifest
+*.res
