@@ -1,9 +1,8 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include "defines.h"
+void frame(void *void_ptr);
 
-void frame();
-void recover();
+void recover(void *void_ptr,short *recover_array);
 
 #endif

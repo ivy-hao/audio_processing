@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
+#include "frame.h"
 #include "defines.h"
 #include "fft.h"
 
@@ -13,7 +14,7 @@ typedef struct {
     FILE *output_file_ptr;
     short in_array[FRAMELEN];   
     short out_array[FRAMELEN];  
-    short tmp_array[FRAMELEN];  
+    short in_array_win[FRAMELEN];  
     short output_data; 
     short pre_out_array[FRAMELEN]; 
 }pcm_data;
@@ -24,6 +25,8 @@ short frqValue[FRAMELEN];
 int open_pcm_data(pcm_data *pcm_data_ptr);
 
 int close_pcm_data(pcm_data *pcm_data_ptr);
+
+int pcm_data_init(pcm_data *pcm_data_ptr);
 
 int proc_pcm_data(pcm_data *pcm_data_ptr);
 

@@ -3,8 +3,8 @@
 
 typedef struct 
 {
-	float re; //real µ≤ø
-	float im; //image–È≤ø
+	float re; 
+	float im; 
 }complex;
 
 void complexSet(complex *a, short *b, int Num);

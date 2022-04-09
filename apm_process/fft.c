@@ -7,21 +7,22 @@
 int i;
 
 complex complexAdd(complex a, complex b) 
-{ //复数加  两个复数相加，实部虚部分别相加
+{ 
 	complex rt;
 	rt.re = a.re + b.re;
 	rt.im = a.im + b.im;
 	return rt;
 }
  
-complex complexMult(complex a, complex b) { //复数乘,综合律
+complex complexMult(complex a, complex b)
+{ 
 	complex rt;
 	rt.re = a.re*b.re - a.im*b.im;
 	rt.im = a.im*b.re + a.re*b.im;
 	return rt;
 }
  
-void complexSet(complex *a, short *b, int Num)//复数设置,将原始信号复数化
+void complexSet(complex *a, short *b, int Num)
 {
     int i;
 	for (i = 0; i < Num; i++)
@@ -32,15 +33,13 @@ void complexSet(complex *a, short *b, int Num)//复数设置,将原始信号复数化
 	return;
 }
  
-//离散傅里叶变换
-//X[]标识变换后频域(in_out)，x[]为时域采样信号(in)，len为fft点数，frqValue为分频幅值。
 void dft(complex Xf[], complex xt[], int len,short frqValue[])
 { 
     int n,i;
 	complex temp;
 	for (i = 0; i < len; i++)
 	{
-		Xf[i].re = 0;  //初始化复频率值
+		Xf[i].re = 0;  
 		Xf[i].im = 0;
 		for (n = 0; n < len; n++)
 		{
@@ -49,18 +48,16 @@ void dft(complex Xf[], complex xt[], int len,short frqValue[])
 			Xf[i] = complexAdd(Xf[i], complexMult(xt[n], temp));
 		}
  
-		if (i >= 6000)//去除高频信号>6K
+		if (i >= 6000)
 		{
 			Xf[i].re = 0.0;
 			Xf[i].im = 0.0;
 		}
-	    frqValue[i] = (int)(2.0/SR_NUM*sqrt(Xf[i].re*Xf[i].re + Xf[i].im*Xf[i].im));//转换后的分频幅
+	    frqValue[i] = (int)(2.0/SR_NUM*sqrt(Xf[i].re*Xf[i].re + Xf[i].im*Xf[i].im));
  
 	}
 }
 
-//离散傅里叶逆变换
-//Xin[]标识变换后频域，xOut[]为时域采样信号
 void idft(complex Xin[], complex xOut[], int len,short xOut_re[]) 
 {
 	complex temp;
