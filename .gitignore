@@ -11,3 +11,11 @@
 *.obj
 *.idb
 *.pch
+*.user
+*.htm
+*.ncb
+*.suo
+*.txt
+*.dep
+*.manifest
+*.res

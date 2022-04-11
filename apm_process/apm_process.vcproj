@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="FFT_1"
-	ProjectGUID="{ACDD27B7-FAA4-4774-B9EB-E41778CB29BE}"
-	RootNamespace="FFT_1"
+	Name="apm_process"
+	ProjectGUID="{2B9B0201-AFA8-4694-A94A-FDAE5B13ED57}"
+	RootNamespace="apm_process"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -45,7 +45,6 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -171,11 +170,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\fft.cpp"
+				RelativePath=".\apm_proc.c"
 				>
 			</File>
 			<File
-				RelativePath=".\FFT_1.cpp"
+				RelativePath=".\fft.c"
+				>
+			</File>
+			<File
+				RelativePath=".\frame.c"
 				>
 			</File>
 		</Filter>
@@ -185,7 +188,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\apm_proc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\defines.h"
+				>
+			</File>
+			<File
 				RelativePath=".\fft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\frame.h"
 				>
 			</File>
 		</Filter>
@@ -194,6 +209,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\main.c"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
