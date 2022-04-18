@@ -7,6 +7,7 @@
 #include "frame.h"
 #include "defines.h"
 #include "fft.h"
+#include "highpass_filter.h"
 
 typedef struct {              
     FILE *input_ptr;
@@ -21,6 +22,7 @@ typedef struct {
 
 complex samples[FRAMELEN], XFreq[FRAMELEN], xTime[FRAMELEN];
 short frqValue[FRAMELEN];
+short after_hp_array[160];
 
 int open_pcm_data(pcm_data *pcm_data_ptr);
 

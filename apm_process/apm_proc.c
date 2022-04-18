@@ -72,7 +72,8 @@ int pcm_data_init(pcm_data *pcm_data_ptr)
 int proc_pcm_data(pcm_data *pcm_data_ptr) 
 {
     short recover_array[160];
-    int i;
+    short after_hp_array[160];
+
 
     if (NULL == pcm_data_ptr)
 	{
@@ -81,7 +82,7 @@ int proc_pcm_data(pcm_data *pcm_data_ptr)
 
     pcm_data_init(pcm_data_ptr);
     memset(recover_array,0,sizeof(short)*(FRAMELEN-STEP)); 
-
+    memset( after_hp_array,0,sizeof(short)*(FRAMELEN-STEP)); 
      while (!feof(pcm_data_ptr->input_ptr))
     {
        frame(pcm_data_ptr);
@@ -91,6 +92,7 @@ int proc_pcm_data(pcm_data *pcm_data_ptr)
        idft(XFreq, xTime,FRAMELEN,pcm_data_ptr->in_array_win);
 
        recover(pcm_data_ptr,recover_array);     
+
      }  
 
    return 0;    
