@@ -1,7 +1,7 @@
 #include "frame.h"
 #include "defines.h"
 #include "apm_proc.h"
-
+#include "highpass_filter.h"
 const double Hamming_Win[FRAMELEN]={
     0.080000,0.080089,0.080357,0.080803,0.081427,0.082229,0.083209,0.084365,
     0.085699,0.087209,0.088894,0.090755,0.092789,0.094997,0.097378,0.099931,
@@ -65,6 +65,7 @@ void frame(void *void_ptr)
 void recover(void *void_ptr,short *recover_array)
 {
     int i;
+
     pcm_data *pcm_data_ptr = (pcm_data*) void_ptr;
 
     for(i=0;i<FRAMELEN-STEP;i++)
@@ -72,7 +73,10 @@ void recover(void *void_ptr,short *recover_array)
         recover_array[i] = pcm_data_ptr->pre_out_array[i+STEP]+pcm_data_ptr->in_array_win[i]; 
     }
     memcpy(pcm_data_ptr->pre_out_array,pcm_data_ptr->in_array_win,sizeof(short)*FRAMELEN);
-    fwrite(recover_array, sizeof(short),FRAMELEN-STEP ,pcm_data_ptr->output_file_ptr);
+    HP_Proc(recover_array,after_hp_array);
+
+    //fwrite(recover_array, sizeof(short),FRAMELEN-STEP ,pcm_data_ptr->output_file_ptr);
+       fwrite( after_hp_array, sizeof(short),FRAMELEN-STEP ,pcm_data_ptr->output_file_ptr);
 
     return;
 }
