@@ -63,6 +63,8 @@ int pcm_data_init(pcm_data *pcm_data_ptr)
     memset(pcm_data_ptr->out_array,0,sizeof(short)*FRAMELEN); 
     memset(pcm_data_ptr->in_array_win,0,sizeof(short)*FRAMELEN); 
     memset(pcm_data_ptr->pre_out_array,0,sizeof(short)*FRAMELEN); 
+    memset(pcm_data_ptr->hp_filter.pre_in_,0,sizeof(short)*(HPF_ORDER-1)); 
+    memset(pcm_data_ptr->hp_filter.pre_out_,0,sizeof(short)*(HPF_ORDER-1)); 
     return 0;
 }
 
@@ -71,8 +73,8 @@ int pcm_data_init(pcm_data *pcm_data_ptr)
 
 int proc_pcm_data(pcm_data *pcm_data_ptr) 
 {
-    short recover_array[160];
-    short after_hp_array[160];
+    short recover_array[FRAMELEN];
+    short after_hp_array[FRAMELEN];
 
 
     if (NULL == pcm_data_ptr)
@@ -81,17 +83,16 @@ int proc_pcm_data(pcm_data *pcm_data_ptr)
 	}
 
     pcm_data_init(pcm_data_ptr);
-    memset(recover_array,0,sizeof(short)*(FRAMELEN-STEP)); 
-    memset( after_hp_array,0,sizeof(short)*(FRAMELEN-STEP)); 
+    memset(recover_array,0,sizeof(short)*FRAMELEN); 
+    memset( after_hp_array,0,sizeof(short)*FRAMELEN); 
      while (!feof(pcm_data_ptr->input_ptr))
     {
-       frame(pcm_data_ptr);
+        fread(&pcm_data_ptr->in_array,sizeof(short),FRAMELEN,pcm_data_ptr->input_ptr); 
+        
+        hpf(pcm_data_ptr);
 
-       complexSet(samples, pcm_data_ptr->in_array_win, FRAMELEN);
-       dft(XFreq, samples, FRAMELEN,pcm_data_ptr->out_array);
-       idft(XFreq, xTime,FRAMELEN,pcm_data_ptr->in_array_win);
-
-       recover(pcm_data_ptr,recover_array);     
+        memcpy(pcm_data_ptr->out_array,pcm_data_ptr->in_array,sizeof(short)*FRAMELEN);
+        fwrite(pcm_data_ptr->out_array, sizeof(short),FRAMELEN,pcm_data_ptr->output_file_ptr);
 
      }  
 

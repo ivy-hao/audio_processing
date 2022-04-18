@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-#define FRAMELEN 320
-#define STEP 160
+#define FRAMELEN 160
+#define STEP 80
 
 #endif

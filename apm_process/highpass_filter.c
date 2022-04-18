@@ -1,14 +1,15 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include <math.h>
+#include "apm_proc.h"
+#include "defines.h"
 #include "highpass_filter.h"
 
+const float hpf_bb_[HPF_ORDER] = {0.8945735693,    -2.68268609,     2.68268609,  -0.8945735693};
+const float hpf_ab_[HPF_ORDER] = {1,   -2.776320696,    2.577936888,  -0.8002618551};
 
-int j;
-const int FRAMELEN = 320; 
-const int STEP = 160;  
 void HP_Proc(short arr_x[], short arr_y[])
 { 
+    int j;
+
     for(j=0;j<FRAMELEN-STEP;j++)
     {
         
@@ -31,4 +32,33 @@ void HP_Proc(short arr_x[], short arr_y[])
 
     }
  return;
+}
+
+
+void hpf(void *pcm_data_ptr)
+{
+    pcm_data *stt = (pcm_data *)pcm_data_ptr;
+    int i,j;
+    for (i = 0; i < FRAMELEN ; i ++)
+    {
+        short tmp_out = 0;
+        tmp_out += stt->in_array[i] * hpf_bb_[0];
+        for(j = 0; j < HPF_ORDER-1; j ++)
+        {
+            tmp_out +=   stt->hp_filter.pre_in_[j] * hpf_bb_[j+1];
+        }
+        
+        for(j = 0; j < HPF_ORDER-1; j ++)
+        {
+            tmp_out -=   stt->hp_filter.pre_out_[j] * hpf_ab_[j+1];
+        }
+
+        memmove(&stt->hp_filter.pre_in_[1],stt->hp_filter.pre_in_,sizeof(short)*(HPF_ORDER - 2));
+        memmove(&stt->hp_filter.pre_out_[1],stt->hp_filter.pre_out_,sizeof(short)*(HPF_ORDER - 2));
+        stt->hp_filter.pre_in_[0] = stt->in_array[i];
+        stt->hp_filter.pre_out_[0] = (short)tmp_out;
+        
+        stt->in_array[i] = tmp_out;
+    }
+    return;
 }

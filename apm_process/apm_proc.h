@@ -18,6 +18,7 @@ typedef struct {
     short in_array_win[FRAMELEN];  
     short output_data; 
     short pre_out_array[FRAMELEN]; 
+    hp_filter hp_filter;
 }pcm_data;
 
 complex samples[FRAMELEN], XFreq[FRAMELEN], xTime[FRAMELEN];
