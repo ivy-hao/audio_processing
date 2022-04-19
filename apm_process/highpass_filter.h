@@ -1,7 +1,7 @@
 #ifndef __HIGHPASS_FILTER_H__
 #define __HIGHPASS_FILTER_H__
 
-#define HPF_ORDER  5
+#define HPF_ORDER  4
 
 typedef struct {              
     short pre_in_[HPF_ORDER - 1];
